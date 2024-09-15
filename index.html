@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(168, 181, 181);
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        input {
+            margin: 5px;
+            padding: 8px;
+        }
+        button {
+            padding: 10px;
+            margin: 10px 0;
+        }
+        h {
+            text-align: center;
+        }
+        .box {
+            display: grid;
+            background-color: white;
+            gap: 0.2rem;
+            width: 40%;
+            padding: 2rem;
+            margin: 0;
+            border-radius: 2rem;
+        }
+        .btn {
+            border-radius: 0.5rem;
+            color: white;
+            background-color: rgb(17, 17, 95);
+            width: 20vw;
+        }
+        input {
+            width: 80%;
+        }
+        @media(width < 490px) {
+            .box {
+                width: 100%;
+            }
+            .btn {
+                width: 30vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="box">
+        <h4><u>Interest Calculator</u></h4>
+        <h5>Enter Required Details :</h5>
+
+        <label for="num1">Principal Amount</label>
+        <input type="number" id="num1" />
+
+        <label for="num2">Years</label>
+        <input type="number" id="num2" />
+
+        <label for="num3">Months</label>
+        <input type="number" id="num3" min="0" max="12" />
+
+        <label for="num4">Rate (%)</label>
+        <input type="number" id="num4" />
+
+        <button onclick="calculateSimpleInterest()" class="btn">Simple Interest</button>
+        <button onclick="calculateCompoundInterest()" class="btn">Compound Interest</button>
+
+        <h4 style="color: rgb(12, 12, 171);">Simple Interest: <span id="simpleInterest"></span></h4>
+        <h4 style="color: rgb(12, 12, 171);">Total Amount (Simple): <span id="simpleTotal"></span></h4>
+
+        <h4 style="color: rgb(12, 12, 171);">Total Amount (Compound): <span id="compoundTotal"></span></h4>
+
+    </div>
+   
+    <script>
+        // Function to calculate Simple Interest
+        function calculateSimpleInterest() {
+            var principal = parseFloat(document.getElementById('num1').value) || 0;
+            var years = parseFloat(document.getElementById('num2').value) || 0;
+            var months = parseFloat(document.getElementById('num3').value) || 0;
+            var rate = parseFloat(document.getElementById('num4').value) || 0;
+
+            var totalMonths = (years * 12) + months;
+            var interest = (principal * rate * totalMonths) / (12 * 100); // Simple Interest formula
+            var totalAmount = principal + interest;
+
+            // Display the result for Simple Interest
+            document.getElementById('simpleInterest').innerText = interest.toFixed(2);
+            document.getElementById('simpleTotal').innerText = totalAmount.toFixed(2);
+        }
+
+        // Function to calculate Compound Interest using a month-by-month method
+        function calculateCompoundInterest() {
+            var amount = parseFloat(document.getElementById('num1').value) || 0;
+            var years = parseFloat(document.getElementById('num2').value) || 0;
+            var months = parseFloat(document.getElementById('num3').value) || 0;
+            var rate = parseFloat(document.getElementById('num4').value) || 0;
+
+            for(let i = 1;i<=years;i++){
+            amount = ((amount/100)*rate*12) + amount;
+        }
+        let totalAmount = ((amount/100)*rate*months) + amount;
+
+
+            // Display the result for Compound Interest
+            document.getElementById('compoundTotal').innerText = totalAmount.toFixed(2);
+        }
+    </script>
+</body>
+</html>
